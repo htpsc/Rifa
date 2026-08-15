@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><script>(function(){var hostOrigin="https://skynetchat.net";function str(v){try{return typeof v==='string'?v:(v&&v.url)||String(v||'')}catch(e){return ''}}function method(v,fallback){return String(v||fallback||'GET').toUpperCase()}function relative(u){return !/^[a-z][a-z0-9+.-]*:/i.test(u)&&!/^\/\//.test(u)}function sameHost(u){try{return !!hostOrigin&&new URL(u,hostOrigin).origin===hostOrigin}catch(e){return false}}function blocked(u){return relative(u)||sameHost(u)}function report(kind,m,u){var d={kind:kind,method:method(m),url:str(u),blocked:true,at:new Date().toISOString()};try{console.warn('[ARTIFACT_NETWORK_BLOCKED]',d)}catch(e){}try{parent.postMessage({__artifactNetwork:d},'*')}catch(e){}}var nf=window.fetch&&window.fetch.bind(window);if(nf)window.fetch=function(input,init){var u=str(input),m=method(init&&init.method,input&&input.method);if(blocked(u)){report('fetch',m,u);return Promise.resolve(new Response('',{status:200,headers:{'X-Artifact-Preview':'blocked'}}))}return nf(input,init)};try{var nb=navigator.sendBeacon&&navigator.sendBeacon.bind(navigator);if(nb)navigator.sendBeacon=function(u,data){if(blocked(str(u))){report('sendBeacon','POST',u);return true}return nb(u,data)}}catch(e){}try{var xo=XMLHttpRequest.prototype.open,xs=XMLHttpRequest.prototype.send;XMLHttpRequest.prototype.open=function(m,u){this.__artifactMethod=method(m);this.__artifactUrl=str(u);return xo.apply(this,arguments)};XMLHttpRequest.prototype.send=function(){if(blocked(this.__artifactUrl||'')){report('xhr',this.__artifactMethod,this.__artifactUrl);var self=this;setTimeout(function(){try{self.dispatchEvent(new Event('load'));self.dispatchEvent(new Event('loadend'))}catch(e){}},0);return}return xs.apply(this,arguments)}}catch(e){}document.addEventListener('submit',function(e){var f=e.target;if(!f||String(f.tagName).toLowerCase()!=='form')return;if(blocked(f.getAttribute('action')||'')){e.preventDefault();report('form',f.method||'GET',f.getAttribute('action')||'')}},true);try{var fs=HTMLFormElement.prototype.submit;HTMLFormElement.prototype.submit=function(){var u=this.getAttribute('action')||'';if(blocked(u)){report('form.submit',this.method||'GET',u);return}return fs.apply(this,arguments)}}catch(e){}})();</script><script>(function(){function mkStore(){var m={};return{getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null;},setItem:function(k,v){m[k]=String(v);},removeItem:function(k){delete m[k];},clear:function(){m={};},key:function(i){return Object.keys(m)[i]||null;},get length(){return Object.keys(m).length;}};}try{window.localStorage.getItem('__t');}catch(e){try{Object.defineProperty(window,'localStorage',{value:mkStore(),configurable:true});}catch(e2){}}try{window.sessionStorage.getItem('__t');}catch(e){try{Object.defineProperty(window,'sessionStorage',{value:mkStore(),configurable:true});}catch(e2){}}})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa da Geladeira</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .info { margin: 20px 0; font-size: 1.2em; }
+        .price { color: #27ae60; font-weight: bold; font-size: 1.5em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; margin-top: 20px; }
+        .number { background: #eee; padding: 15px; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .number:hover { background: #ddd; }
+        .number.sold { background: #e74c3c; color: white; cursor: not-allowed; opacity: 0.6; }
+        .payment-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-pix { background: #2980b9; color: white; }
+        .btn-card { background: #27ae60; color: white; }
+    </style>
+<style>html,body{overscroll-behavior:contain}canvas{max-width:100%;height:auto}img{max-width:100%}</style></head>
+<body>
+
+<div class="container">
+    <h1>Rifa da Geladeira</h1>
+
+    <!-- Coloque a foto da geladeira aqui -->
+    <img src="geladeira.jpg" alt="Foto da Geladeira" style="width:100%; border-radius: 8px;">
+
+    <div class="info">
+        <p>Valor da cota: <span class="price">R$ 10,00</span></p>
+        <p>Prazo: 90 dias</p>
+        <p id="countdown">Calculando...</p>
+    </div>
+
+    <div class="grid" id="numeros">
+        <!-- Números gerados via JS -->
+    </div>
+
+    <div class="payment-buttons">
+        <button class="btn btn-pix" onclick="alert('Copie a chave PIX: 123.456.789-00\nEnvie o comprovante para o WhatsApp!')">Pagar via PIX</button>
+        <button class="btn btn-card" onclick="alert('Redirecionando para pagamento com cartão...')">Pagar com Cartão</button>
+    </div>
+</div>
+
+<script>
+    // Configuração
+    const totalNumeros = 100;
+    const numerosVendidos = [5, 12, 88]; // Números já vendidos
+
+    const grid = document.getElementById('numeros');
+
+    for (let i = 1; i <= totalNumeros; i++) {
+        const div = document.createElement('div');
+        div.className = 'number';
+        div.innerText = i;
+
+        if (numerosVendidos.includes(i)) {
+            div.classList.add('sold');
+            div.title = "Vendido";
+        } else {
+            div.onclick = () => selecionarNumero(i);
+        }
+
+        grid.appendChild(div);
+    }
+
+    function selecionarNumero(num) {
+        alert(`Você escolheu o número ${num}. Escolha a forma de pagamento.`);
+    }
+
+    // Countdown
+    const dataFinal = new Date();
+    dataFinal.setDate(dataFinal.getDate() + 90);
+
+    setInterval(() => {
+        const agora = new Date();
+        const diff = dataFinal - agora;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById('countdown').innerText = `Faltam ${dias} dias`;
+    }, 1000);
+</script>
+
+<script>(function(){function pick(){var c=[];var r=document.getElementById('root');if(r&&r.firstElementChild)c.push(r.firstElementChild);if(r)c.push(r);var b=document.body;if(b&&b.firstElementChild)c.push(b.firstElementChild);if(b)c.push(b);for(var i=0;i<c.length;i++){try{var g=getComputedStyle(c[i]).backgroundColor;if(g&&g!=='rgba(0, 0, 0, 0)'&&g!=='transparent')return g;}catch(e){}}return null;}function sync(){var g=pick();if(g){document.documentElement.style.background=g;document.body.style.background=g;try{parent.postMessage({__bg:{picked:g}},'*');}catch(e){}}}window.addEventListener('load',sync);document.addEventListener('DOMContentLoaded',sync);var n=0,t=setInterval(function(){sync();if(++n>12)clearInterval(t);},200);})();</script></body>
+</html>
