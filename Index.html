@@ -15,7 +15,7 @@
         .number:hover { background: #ddd; }
         .number.sold { background: #e74c3c; color: white; cursor: not-allowed; opacity: 0.6; }
         .payment-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn { flex: 1; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; }
         .btn-pix { background: #2980b9; color: white; }
         .btn-card { background: #27ae60; color: white; }
     </style>
@@ -25,8 +25,8 @@
 <div class="container">
     <h1>Rifa da Geladeira</h1>
 
-    <!-- Coloque a foto da geladeira aqui -->
-    <img src="geladeira.jpg" alt="Foto da Geladeira" style="width:100%; border-radius: 8px;">
+    <!-- Imagem atualizada -->
+    <img src="9e02ab2db316254b0338317cebd31cab.jpg" alt="Foto da Geladeira" style="width:100%; border-radius: 8px;">
 
     <div class="info">
         <p>Valor da cota: <span class="price">R$ 10,00</span></p>
@@ -39,15 +39,15 @@
     </div>
 
     <div class="payment-buttons">
-        <button class="btn btn-pix" onclick="alert('Copie a chave PIX: 123.456.789-00\nEnvie o comprovante para o WhatsApp!')">Pagar via PIX</button>
-        <button class="btn btn-card" onclick="alert('Redirecionando para pagamento com cartão...')">Pagar com Cartão</button>
+        <button class="btn btn-pix" onclick="alert('Copie a chave PIX e envie o comprovante.')">Pagar via PIX</button>
+        <button class="btn btn-card" onclick="alert('Integração de cartão pendente.')">Pagar com Cartão</button>
     </div>
 </div>
 
 <script>
     // Configuração
     const totalNumeros = 100;
-    const numerosVendidos = [5, 12, 88]; // Números já vendidos
+    const numerosVendidos = [5, 12, 88]; // Exemplo
 
     const grid = document.getElementById('numeros');
 
@@ -67,7 +67,7 @@
     }
 
     function selecionarNumero(num) {
-        alert(`Você escolheu o número ${num}. Escolha a forma de pagamento.`);
+        alert(`Número ${num} selecionado.`);
     }
 
     // Countdown
